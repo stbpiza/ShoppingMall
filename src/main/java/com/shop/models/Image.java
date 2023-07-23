@@ -27,6 +27,11 @@ public class Image {
     private Image() {
     }
 
+    public Image(String url) {
+//        this.id = ImageId.generate();
+        this.url = url;
+    }
+
     public String url() {
         return url;
     }

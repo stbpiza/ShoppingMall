@@ -16,6 +16,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "products")
@@ -56,6 +57,18 @@ public class Product {
     private Product() {
     }
 
+    public Product(ProductId productId, CategoryId categoryId, List<Image> images,
+                   String name, Money price, List<ProductOption> options,
+                   String description) {
+        this.id = productId;
+        this.categoryId = categoryId;
+        this.images = images;
+        this.name = name;
+        this.price = price;
+        this.options = options;
+        this.description = description;
+    }
+
     public CategoryId categoryId() {
         return categoryId;
     }
@@ -93,6 +106,13 @@ public class Product {
 
     public ProductOption option(int index) {
         return options.get(index);
+    }
+
+    public ProductOption optionById(ProductOptionId optionId) {
+        return options.stream()
+                .filter(option -> Objects.equals(option.id(), optionId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당 옵션을 찾을 수 없습니다."));
     }
 }
 

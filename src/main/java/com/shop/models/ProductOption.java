@@ -14,6 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "product_options")
@@ -38,6 +39,12 @@ public class ProductOption {
     private ProductOption() {
     }
 
+    public ProductOption(ProductOptionId id, String name, List<ProductOptionItem> items) {
+        this.id = id;
+        this.name = name;
+        this.items = items;
+    }
+
     public ProductOptionId id() {
         return id;
     }
@@ -52,5 +59,12 @@ public class ProductOption {
 
     public ProductOptionItem item(int index) {
         return items.get(index);
+    }
+
+    public ProductOptionItem itemById(ProductOptionItemId itemId) {
+        return items.stream()
+                .filter(item -> Objects.equals(item.id(), itemId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No such item"));
     }
 }

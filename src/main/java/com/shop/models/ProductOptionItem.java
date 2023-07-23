@@ -27,6 +27,11 @@ public class ProductOptionItem {
     private ProductOptionItem() {
     }
 
+    public ProductOptionItem(ProductOptionItemId id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public ProductOptionItemId id() {
         return id;
     }
