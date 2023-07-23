@@ -3,3 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/shop
     username: study
     password: study1234
+
+jwt:
+  secret: weorsigndfglk3#$

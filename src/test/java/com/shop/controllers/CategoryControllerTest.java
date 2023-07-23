@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(CategoryController.class)
-class CategoryControllerTest {
+class CategoryControllerTest extends ControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
