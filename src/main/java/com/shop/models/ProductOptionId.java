@@ -4,32 +4,16 @@ import jakarta.persistence.Column;
 
 import java.util.Objects;
 
-public class ProductOptionId {
-
-    @Column(name = "id")
-    private String value;
-
-    private ProductOptionId() {}
+public class ProductOptionId extends EntityId {
+    private ProductOptionId() {
+        super();
+    }
 
     public ProductOptionId(String value) {
-        this.value = value;
+        super(value);
     }
 
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductOptionId that = (ProductOptionId) o;
-        return Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value);
+    public static ProductOptionId generate() {
+        return new ProductOptionId(newTsid());
     }
 }
