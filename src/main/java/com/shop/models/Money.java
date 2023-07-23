@@ -22,4 +22,8 @@ public class Money {
     public String toString() {
         return amount.toString();
     }
+
+    public Money times(int multiplier) {
+        return new Money(amount * multiplier);
+    }
 }
