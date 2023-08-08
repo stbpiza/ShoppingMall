@@ -1,14 +1,19 @@
 package com.shop;
 
+import com.shop.models.Address;
 import com.shop.models.CategoryId;
 import com.shop.models.Image;
 import com.shop.models.Money;
+import com.shop.models.Payment;
+import com.shop.models.PhoneNumber;
+import com.shop.models.PostalCode;
 import com.shop.models.Product;
 import com.shop.models.ProductId;
 import com.shop.models.ProductOption;
 import com.shop.models.ProductOptionId;
 import com.shop.models.ProductOptionItem;
 import com.shop.models.ProductOptionItemId;
+import com.shop.models.Receiver;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -40,7 +45,7 @@ public class Fixtures {
                             new Image("http://example.com/product-02.jpg")
                     ),
                     "셔츠",
-                    new Money(128_000L),
+                    new Money(123_000L),
                     List.of(),
                     "Shirt");
         }
@@ -105,5 +110,17 @@ public class Fixtures {
         }
 
         throw new NoSuchElementException("ProductOptionItem - name: " + name);
+    }
+
+    public static Receiver receiver(String name) {
+        return new Receiver(
+                name,
+                new Address("서울 성동구 상원12길 34", "ㅇㅇㅇ호",
+                        new PostalCode("04790")),
+                new PhoneNumber("01012345678"));
+    }
+
+    public static Payment payment() {
+        return new Payment("PaymentMerchantID", "PaymentTransactionID");
     }
 }
