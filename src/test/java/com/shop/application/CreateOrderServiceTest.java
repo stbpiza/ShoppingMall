@@ -1,6 +1,7 @@
 package com.shop.application;
 
 import com.shop.Fixtures;
+import com.shop.infrastructure.PaymentValidator;
 import com.shop.models.Address;
 import com.shop.models.Cart;
 import com.shop.models.CartLineItemOption;
@@ -22,7 +23,6 @@ import java.util.Set;
 
 import static com.shop.TestUtils.createCartLineItemOption;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -31,6 +31,8 @@ class CreateOrderServiceTest {
     private ProductRepository productRepository;
     private CartRepository cartRepository;
     private OrderRepository orderRepository;
+
+    private PaymentValidator paymentValidator;
 
     private CreateOrderService createOrderService;
 
@@ -46,9 +48,11 @@ class CreateOrderServiceTest {
         productRepository = mock(ProductRepository.class);
         cartRepository = mock(CartRepository.class);
         orderRepository = mock(OrderRepository.class);
+        paymentValidator = mock(PaymentValidator.class);
+
 
         createOrderService = new CreateOrderService(
-                productRepository, cartRepository, orderRepository);
+                productRepository, cartRepository, orderRepository, paymentValidator);
     }
 
     @BeforeEach

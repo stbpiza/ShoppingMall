@@ -1,5 +1,6 @@
 package com.shop.application;
 
+import com.shop.infrastructure.PaymentValidator;
 import com.shop.models.Cart;
 import com.shop.models.CartLineItem;
 import com.shop.models.Order;
@@ -32,13 +33,16 @@ public class CreateOrderService {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
+    private final PaymentValidator paymentValidator;
 
     public CreateOrderService(ProductRepository productRepository,
                               CartRepository cartRepository,
-                              OrderRepository orderRepository) {
+                              OrderRepository orderRepository,
+                              PaymentValidator paymentValidator) {
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
+        this.paymentValidator = paymentValidator;
     }
 
     public Order createOrder(
@@ -56,6 +60,8 @@ public class CreateOrderService {
 
         Order order = new Order(orderId, userId, lineItems, receiver, payment,
                 OrderStatus.PAID);
+
+        paymentValidator.validate(payment, order);
 
         orderRepository.save(order);
 

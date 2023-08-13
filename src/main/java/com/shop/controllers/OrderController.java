@@ -1,8 +1,13 @@
 package com.shop.controllers;
 
 import com.shop.application.CreateOrderService;
+import com.shop.application.GetOrderDetailService;
+import com.shop.application.GetOrderListService;
+import com.shop.dtos.OrderDetailDto;
+import com.shop.dtos.OrderListDto;
 import com.shop.dtos.OrderRequestDto;
 import com.shop.models.Address;
+import com.shop.models.OrderId;
 import com.shop.models.Payment;
 import com.shop.models.PhoneNumber;
 import com.shop.models.PostalCode;
@@ -13,6 +18,8 @@ import com.shop.security.UserRequired;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +32,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
     private final CreateOrderService createOrderService;
 
-    public OrderController(CreateOrderService createOrderService) {
+    private final GetOrderListService getOrderListService;
+
+    private final GetOrderDetailService getOrderDetailService;
+
+    public OrderController(CreateOrderService createOrderService,
+                           GetOrderListService getOrderListService,
+                           GetOrderDetailService getOrderDetailService) {
         this.createOrderService = createOrderService;
+        this.getOrderListService = getOrderListService;
+        this.getOrderDetailService = getOrderDetailService;
     }
 
     @PostMapping
@@ -60,5 +75,25 @@ public class OrderController {
         createOrderService.createOrder(userId, receiver, payment);
 
         return "Created";
+    }
+
+    @GetMapping
+    public OrderListDto list(Authentication authentication) {
+        AuthUser authUser = (AuthUser) authentication.getPrincipal();
+
+        UserId userId = new UserId(authUser.id());
+
+        return getOrderListService.getOrderList(userId);
+    }
+
+    @GetMapping("/{id}")
+    public OrderDetailDto detail(Authentication authentication,
+                                 @PathVariable String id) {
+        AuthUser authUser = (AuthUser) authentication.getPrincipal();
+
+        OrderId orderId = new OrderId(id);
+        UserId userId = new UserId(authUser.id());
+
+        return getOrderDetailService.getOrderDetail(orderId, userId);
     }
 }

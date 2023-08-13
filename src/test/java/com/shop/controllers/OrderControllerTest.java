@@ -1,6 +1,9 @@
 package com.shop.controllers;
 
 import com.shop.application.CreateOrderService;
+import com.shop.application.GetOrderDetailService;
+import com.shop.application.GetOrderListService;
+import com.shop.models.OrderId;
 import com.shop.models.UserId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +28,12 @@ class OrderControllerTest extends ControllerTest {
 
     @MockBean
     private CreateOrderService createOrderService;
+
+    @MockBean
+    private GetOrderListService getOrderListService;
+
+    @MockBean
+    private GetOrderDetailService getOrderDetailService;
 
     @Test
     @DisplayName("POST /orders")
@@ -53,5 +63,20 @@ class OrderControllerTest extends ControllerTest {
                 .andExpect(status().isCreated());
 
         verify(createOrderService).createOrder(eq(userId), any(), any());
+    }
+
+
+    @Test
+    @DisplayName("GET /orders/{id}")
+    void detail() throws Exception {
+        UserId userId = new UserId(USER_ID);
+        String orderId = "ORDER-ID";
+
+        mockMvc.perform(get("/orders/" + orderId)
+                        .header("Authorization", "Bearer " + userAccessToken))
+                .andExpect(status().isOk());
+
+        verify(getOrderDetailService)
+                .getOrderDetail(new OrderId(orderId), userId);
     }
 }
