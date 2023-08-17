@@ -55,7 +55,19 @@ public class User {
         return name;
     }
 
+    public String email() {
+        return email;
+    }
+
+    public Role role() {
+        return role;
+    }
+
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
         this.encodedPassword = passwordEncoder.encode(password);
+    }
+
+    public boolean isAdmin() {
+        return role.equals(Role.ROLE_ADMIN);
     }
 }
