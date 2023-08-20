@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface CategoryRepository extends CrudRepository<Category, CategoryId> {
     List<Category> findAll();
+
+    List<Category> findAllByOrderByIdAsc();
+
+    List<Category> findAllByHiddenIsFalseOrderByIdAsc();
 }

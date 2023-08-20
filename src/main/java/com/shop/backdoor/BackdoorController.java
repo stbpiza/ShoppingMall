@@ -218,19 +218,27 @@ public class BackdoorController {
         LocalDateTime now = LocalDateTime.now();
 
         jdbcTemplate.update("""
-                        INSERT INTO categories (
-                            id, name, created_at, updated_at)
-                        VALUES (?, ?, ?, ?)
-                        """,
-                "0BV000CAT0001", "top", now, now
+                    INSERT INTO categories (
+                        id, name, hidden, created_at, updated_at)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                "0BV000CAT0001", "top", false, now, now
         );
 
         jdbcTemplate.update("""
-                        INSERT INTO categories (
-                            id, name, created_at, updated_at)
-                        VALUES (?, ?, ?, ?)
-                        """,
-                "0BV000CAT0002", "outer", now, now
+                    INSERT INTO categories (
+                        id, name, hidden, created_at, updated_at)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                "0BV000CAT0002", "outer", false, now, now
+        );
+
+        jdbcTemplate.update("""
+                    INSERT INTO categories (
+                        id, name, hidden, created_at, updated_at)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                "0BV000CAT0003", "HIDDEN", true, now, now
         );
     }
 

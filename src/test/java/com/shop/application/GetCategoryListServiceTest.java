@@ -27,8 +27,8 @@ class GetCategoryListServiceTest {
     void list() {
         Category category = new Category(new CategoryId("0BV000CAT0001"), "top");
 
-        given(categoryRepository.findAll()).willReturn(List.of(category));
-
+        given(categoryRepository.findAllByHiddenIsFalseOrderByIdAsc())
+                .willReturn(List.of(category));
         List<Category> categories = getCategoryListService.getCategories();
 
         assertThat(categories).hasSize(1);
