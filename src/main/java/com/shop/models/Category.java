@@ -18,6 +18,9 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "hidden")
+    private boolean hidden;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -25,6 +28,12 @@ public class Category {
     private LocalDateTime updatedAt;
 
     private Category() {}
+
+    public Category(CategoryId id, String name, boolean hidden) {
+        this.id = id;
+        this.name = name;
+        this.hidden = hidden;
+    }
 
     public Category(CategoryId id, String name) {
         this.id = id;
@@ -37,5 +46,21 @@ public class Category {
 
     public String name() {
         return name;
+    }
+
+    public boolean hidden() {
+        return hidden;
+    }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void show() {
+        this.hidden = false;
+    }
+
+    public void hide() {
+        this.hidden = true;
     }
 }
