@@ -26,6 +26,18 @@ public class Receiver {
         this.phoneNumber = phoneNumber;
     }
 
+    public Address address() {
+        return address;
+    }
+
+    public PhoneNumber phoneNumber() {
+        return phoneNumber;
+    }
+
+    public String name() {
+        return name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

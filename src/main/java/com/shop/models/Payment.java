@@ -25,6 +25,10 @@ public class Payment {
         return transactionId;
     }
 
+    public String merchantId() {
+        return merchantId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
